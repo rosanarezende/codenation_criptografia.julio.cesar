@@ -21,7 +21,8 @@ def decifrar():
     mensagem = ''
     for x in cifrado:
         if x in alfabeto:
-            mensagem += alfabeto[alfabeto.index(x) - numero_casas]
+            posicao_atual = alfabeto.index(x)
+            mensagem += alfabeto[posicao_atual - numero_casas]
         else:
             mensagem += x
     return mensagem.lower()
@@ -49,7 +50,8 @@ def criar_arquivo():
 #POSTAR RESULTADO FINAL
 def postar_resultado():
     url_post = 'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token={0}'.format(TOKEN)
-    requests.post(url_post, files={"answer": open("answer.json", "rb")})
+    file = {"answer": open("answer.json", "rb")}
+    requests.post(url_post, files=file)
     #pra ver se deu tudo certo
     print(response.status_code)
     print(response.content)
@@ -58,4 +60,4 @@ def postar_resultado():
 if __name__ == '__main__':
     print(resultado)
     criar_arquivo()
-    #postar_resultado()
+    postar_resultado()
