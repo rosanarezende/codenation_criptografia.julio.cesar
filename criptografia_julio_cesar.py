@@ -16,8 +16,14 @@ numero_casas = response_json['numero_casas']
 cifrado = response_json['cifrado']
 token = response_json['token']
 
-#PROGRAMA DE DESCRIPTOGRAFIA
 def decifrar():
+    """Realiza a descriptografia do texto informado
+    INPUT:
+    Recebe a mensagem criptografada e, com base na posição de cada letra no alfabeto,
+    encontra a letra correta para montar a mensagem descriptografada.
+    OUTPUT:
+    Retorna a mensagem descriptografada, em letras minúsculas
+    """
     mensagem = ''
     for x in cifrado:
         if x in alfabeto:
@@ -41,20 +47,19 @@ resultado = {
 "resumo_criptografico": resumo_criptografico
 }
 
-#CRIAR ARQUIVO JSON
 def criar_arquivo():
+    """ Cria arquivo no formato json com os dados do resultado """
     arquivo = open('answer.json', 'w')
     json.dump(resultado, arquivo, indent=4, sort_keys=False)
     arquivo.close()
 
-#POSTAR RESULTADO FINAL
 def postar_resultado():
+    """ Envia o arquivo criado para o endereço informado pela Codenation """
     url_post = 'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token={0}'.format(TOKEN)
     file = {"answer": open("answer.json", "rb")}
     requests.post(url_post, files=file)
-    #pra ver se deu tudo certo
-    print(response.status_code)
-    print(response.content)
+    print(response.status_code) #pra ver se deu tudo certo
+    print(response.content) #pra verificar o conteúdo postado
 
 
 if __name__ == '__main__':
